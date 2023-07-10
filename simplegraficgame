@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# Function to clear the terminal screen
+function clear_screen {
+    clear
+}
+
+# Function to draw the game board
+function draw_board {
+    clear_screen
+    echo "=== Light Game ==="
+    echo "Use the arrow keys to move the light source. Press 'q' to quit."
+    echo
+
+    for ((i=1; i<=8; i++)); do
+        for ((j=1; j<=8; j++)); do
+            if [[ $i -eq $light_x && $j -eq $light_y ]]; then
+                echo -n "* "  # Light source
+            else
+                echo -n ". "  # Empty space
+            fi
+        done
+        echo
+    done
+}
+
+# Initialize light source position
+light_x=4
+light_y=4
+
+# Main game loop
+while true; do
+    draw_board
+
+    # Read the user input
+    read -n 1 key
+    echo
+
+    case $key in
+        q)
+            echo "Thanks for playing!"
+            exit 0
+            ;;
+        A)
+            if [[ $light_x -gt 1 ]]; then
+                light_x=$((light_x - 1))
+            fi
+            ;;
+        B)
+            if [[ $light_x -lt 8 ]]; then
+                light_x=$((light_x + 1))
+            fi
+            ;;
+        C)
+            if [[ $light_y -lt 8 ]]; then
+                light_y=$((light_y + 1))
+            fi
+            ;;
+        D)
+            if [[ $light_y -gt 1 ]]; then
+                light_y=$((light_y - 1))
+            fi
+            ;;
+    esac
+done
